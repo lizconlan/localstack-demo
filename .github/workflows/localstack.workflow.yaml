@@ -7,12 +7,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Cache Ruby gems
+        id: cache-gems
+        uses: actions/cache@v3
+        env:
+          cache-name: ruby-gems
+        with:
+          path: Gemfile.lock
+          key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems--${{ hashFiles('Gemfile.lock') }}
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.8'
+          bundler-cache: true
 
       - name: Start LocalStack
         uses: LocalStack/setup-localstack@v0.2.3
