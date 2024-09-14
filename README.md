@@ -14,6 +14,14 @@ You can jump straight into [the example workflow file here](.github/workflows/lo
 
 Don't copy my test code though - it doesn't use AWS mocks for files properly because I'm mostly using this to prove that LocalStack is working inside GitHub Actions - from the Ruby code, rather than calling `awslocal` directly - using real files. The demo class is called `BadExample` for a reason!
 
+## Caching
+
+To speed things up, you can also add caching to your GitHub Actions for longer running processes like installing you Ruby gems so that it doesn't happen every time you run your workflow, even when you haven't made any changes to your Gemfile. (Note that this also required some changes to the workflow so it knows to use the cache.)
+
+The first time around it's slower as it's setting up the cache for the first time, then each subsequent run is faster(until there's an edit that changes the cache).
+
+With a free account, you can currently store up to 500 MB and up to 1 GB with a Pro account [up to date information can be found here](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#included-storage-and-minutes)
+
 ---
 
 If you found this useful - and can easily afford to - please consider [buying me a coffee!](https://buymeacoffee.com/lizconlan)
