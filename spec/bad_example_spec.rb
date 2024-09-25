@@ -4,6 +4,9 @@ require_relative "../lib/bad_example"
 # These tests are terrible!
 # They're just to demonstrate how to include LocalStack in GitHub Actions
 describe BadExample do
+  before(:all) { `awslocal s3 mb s3://#{ENV["BUCKET_NAME"]}` }
+  after(:all) { `awslocal s3 rb s3://#{ENV["BUCKET_NAME"]} --force` }
+
   let(:bad_example) { described_class.new(bucket: ENV["BUCKET_NAME"]) }
   let(:object_key) { "example.txt" }
   let(:object_path) { "s3://#{ENV["BUCKET_NAME"]}/#{object_key}" }

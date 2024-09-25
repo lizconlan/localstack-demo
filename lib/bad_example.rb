@@ -25,12 +25,8 @@ class BadExample
   def client
     @client ||= Aws::S3::Client.new(
       region: "us-east-1",
-      endpoint: "http://localhost:4566",
+      endpoint: "http://localhost.localstack.cloud:4566",
       force_path_style: true,
-      credentials: Aws::Credentials.new(
-        ENV["AWS_ACCESS_KEY"],
-        ENV["AWS_SECRET_KEY"],
-      )
     )
   end
 end

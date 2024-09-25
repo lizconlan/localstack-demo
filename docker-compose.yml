@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    networks:
+      ls:
+        ipv4_address: 10.0.2.20
+    environment:
+      SERVICES: s3
+      AWS_ENDPOINT_URL: http://localhost.localstack.cloud:4566
+
+  docker-demo:
+    image: docker-demo:latest
+    dns:
+      # Set the DNS server to be the LocalStack container
+      - 10.0.2.20
+    environment:
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      BUCKET_NAME: test-bucket
+      AWS_ENDPOINT_URL: http://localhost.localstack.cloud:4566
+    networks:
+      - ls
+
+networks:
+  ls:
+    ipam:
+      config:
+        # Specify the subnet range for IP address allocation
+        - subnet: 10.0.2.0/24
